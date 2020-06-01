@@ -2,8 +2,10 @@ package com.example.contacts.model;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -33,12 +35,14 @@ public class Contact{
     @Column
     private boolean favorite;
     
-    @OneToMany(mappedBy = "contact")
+    @OneToMany(mappedBy = "contact", fetch=FetchType.EAGER, cascade=CascadeType.ALL, orphanRemoval = true)
     private List<Telephone> phoneNumbers;
     
     @ManyToOne
     @JoinColumn(name="group_ID")
     private Group group;
+
+    
     
     /**
      * @return String return the lastName
@@ -122,6 +126,26 @@ public class Contact{
      */
     public void setFavorite(boolean favorite) {
         this.favorite = favorite;
+    }
+
+    
+
+    public Contact() {
+      
+    }
+
+    /**
+     * @return Long return the id
+     */
+    public Long getId() {
+        return id;
+    }
+
+    /**
+     * @param id the id to set
+     */
+    public void setId(Long id) {
+        this.id = id;
     }
 
 }
